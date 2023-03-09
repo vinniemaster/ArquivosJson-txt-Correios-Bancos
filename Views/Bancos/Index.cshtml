@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Bancos";
+}
+<div class="row">
+    <div class="col-md-10">
+        <h4>Consulta Bancos</h4>
+        <button onclick="ConsultaBancos()" class="btn btn-secondary" id="ButtonConsulta">Chamar API</button>
+        <div id="Table">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function ConsultaBancos() {
+            var jsonInput = {};
+            $.ajax(
+            {
+                type: 'GET',
+                dataType: 'JSON',
+                url: 'https://brasilapi.com.br/api/banks/v1',
+                data: { jsonInput: JSON.stringify(jsonInput) },
+                success:
+                    function (response) {
+                        // Generate HTML table.
+                            new Tabulator("#Table", {
+                            progressiveLoad: "scroll",
+                            data: response,
+                            columns: [
+                                    { title: "INSCRIÇÃO", field: "ispb" },
+                                    { title: "NOME", field: "name" },
+                                    { title: "CODIGO", field: "code" },
+                                    { title: "FANTASIA", field: "fullName" },
+                            ],
+                            layout: "fitDataFill",
+                        });
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response);
+                    }
+            });
+    }
+    </script>
+}

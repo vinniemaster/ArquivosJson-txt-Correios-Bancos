@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TESTE.Models.TB_JSON>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div id="Partial">
+</div>
+<tr>
+    <td>
+        <button onclick="CarregarArquivo()" class="btn btn-secondary">Carregar Arquivo Json</button>
+    </td>
+</tr>
+<div id="Table">
+
+</div>
+
+@section Scripts{
+    <script>
+        function CarregarArquivo() {
+            var jsonInput = {};
+            $.ajax(
+                {
+                    type: 'GET',
+                    dataType: 'JSON',
+                    url: '@Url.Action("GetAllNumbers","ArquivoJson")',
+                    data: { jsonInput: JSON.stringify(jsonInput) },
+                    success: function (response) {
+                        console.log(response);
+                        new Tabulator("#Table", {
+                            progressiveLoad: "scroll",
+                            data: response,
+                            columns: [
+                                { title: "CODIGO", field: "codigo" },
+                                { title: "DATA", field: "timestamp" },
+                            ],
+                        });
+                    },
+                    error:
+                        function (response) {
+                            alert("Error: " + response);
+                        }
+                });
+        };
+
+        $(document).ready(function () {
+            $('#Partial').load("/ArquivoJson/Create");
+            alert("Os arquivos são salvos na pasta raíz do projeto!");
+            
+
+        });
+
+       
+    </script>
+}

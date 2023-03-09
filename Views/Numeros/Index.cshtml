@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TB_NUMEROS>
+
+@{
+    ViewData["Title"] = "Index";
+    var tb_numeros = new List<TB_NUMEROS>();
+}
+
+<h1>Index</h1>
+
+<div id="Partial" >  
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NUMEROS)
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>            
+                <form asp-action="DeleteAll">
+                    <input type="hidden"@* asp-for=@id*@ />
+                    <input type="submit" value="Delete All" class="btn btn-danger" />
+                </form>
+            </td>
+            <td>
+
+                <button onclick="GerarArquivo()" class="btn btn-secondary">Gerar Arquivo TXT</button>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+            var id = item.ID_REGISTRO;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NUMEROS)
+                </td>
+                <td>            
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for=@id />
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </form>
+                </td>
+            </tr>
+    }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $('#Partial').load("/Numeros/Create")
+
+        function GerarArquivo() {
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '@Url.Action("GerarTxt","Numeros")',
+                    success: function (response) {
+                        alert("O arquivo foi salvo na pasta raíz do projeto!")},
+                });
+            
+        }
+    </script>
+}
