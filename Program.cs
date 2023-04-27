@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<BancoContext>(options => options.UseSqlServer("Data Source=DESKTOP-VR713UM;User ID=sa;Password=123456789; Initial Catalog=TESTE_DB;Trust Server Certificate=true"));
+builder.Services.AddDbContext<BancoContext>(options => options.UseSqlServer("Data Source=DESKTOP-VR713UM; Initial Catalog=TESTE_DB;Trust Server Certificate=true"));
 
 var app = builder.Build();
 
